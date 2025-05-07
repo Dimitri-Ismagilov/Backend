@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Appsettings-filer (exkludera ALLA miljöspecifika och secrets)
+appsettings.*.json
+!appsettings.json  # Behåll den generella (om den inte innehåller secrets)
+!appsettings.schema.json  # Behåll JSON-schema om det finns
+
+# Secrets
+secrets.json
+*.secret
+.env
+/local.settings.json

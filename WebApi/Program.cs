@@ -2,10 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using WebApi.Data.Contexts;
 using WebApi.Data.Repositories;
 using WebApi.Services;
+using Swashbuckle.AspNetCore.Swagger;
+using WebApi.Extensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<ProjectRepository>();
@@ -23,8 +29,13 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configura
 var app = builder.Build();
 app.MapOpenApi();
 app.UseHttpsRedirection();
+//app.UseMiddleware<WebApi.Extensions.Middlewares.DefaultApiKeyMiddleware>();
 app.UseAuthorization();
+app.UseSwagger();
+app.UseSwaggerUI();
 app.MapControllers();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());//glöm inte ändra cors
+
+
 
 app.Run();

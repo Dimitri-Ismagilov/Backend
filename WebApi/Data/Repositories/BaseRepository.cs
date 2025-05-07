@@ -35,6 +35,11 @@ public class BaseRepository<TEntity> where TEntity : class
         var entities = await _table.ToListAsync();
         return entities;
     }
+    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        var result = await _table.AnyAsync(expression);
+        return result;
+    }
 
     public virtual async Task<bool> UpdateAsync(TEntity entity)
     {
